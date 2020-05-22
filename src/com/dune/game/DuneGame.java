@@ -29,7 +29,11 @@ public class DuneGame extends ApplicationAdapter {
 			if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
 				angle -= 180.0f * dt;
 			}
-			if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
+			if (Gdx.input.isKeyPressed(Input.Keys.UP)
+			&& (position.x - texture.getWidth()/2 + speed * MathUtils.cosDeg(angle) * dt)>=0 && (position.y - texture.getHeight()/2 + speed * MathUtils.sinDeg(angle) * dt) >=0
+					&& (position.x + texture.getWidth()/2+ speed * MathUtils.cosDeg(angle) * dt) <= 1280 && (position.y + texture.getHeight()/2 + speed * MathUtils.sinDeg(angle) * dt) <=720
+
+			) {
 				position.x += speed * MathUtils.cosDeg(angle) * dt;
 				position.y += speed * MathUtils.sinDeg(angle) * dt;
 			}
@@ -43,14 +47,35 @@ public class DuneGame extends ApplicationAdapter {
 			texture.dispose();
 		}
 	}
+	private static class Stone {
+		private Vector2 position;
+		private Texture texture;
+
+		public Stone(float x, float y) {
+			this.position = new Vector2(x, y);
+			this.texture = new Texture("circle.png");
+		}
+		public void update(double x, double y){
+			position.x = (float) (Math.random()*x);
+			position.y = (float)(Math.random()*y);
+		}
+		public void render(SpriteBatch batch){
+			batch.draw(texture, position.x - 40, position.y-40);
+		}
+		public void dispose() {
+			texture.dispose();
+		}
+	}
 
 	private SpriteBatch batch;
 	private Tank tank;
+	private Stone stone;
 
 	@Override
 	public void create() {
 		batch = new SpriteBatch();
 		tank = new Tank(200, 200);
+		stone = new Stone(100,100);
 	}
 
 	@Override
@@ -61,17 +86,31 @@ public class DuneGame extends ApplicationAdapter {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
 		tank.render(batch);
+		stone.render(batch);
+
 		batch.end();
 	}
 
 	public void update(float dt) {
 		tank.update(dt);
+		collision();
 	}
 
 	@Override
 	public void dispose() {
 		batch.dispose();
 		tank.dispose();
+		stone.dispose();
+	}
+
+	public void collision (){
+		if((tank.position.x + tank.texture.getWidth() -5 ) >= (stone.position.x )
+				&& (tank.position.x <= (stone.position.x + stone.texture.getWidth()-5))
+		&& (tank.position.y + tank.texture.getHeight()-5 ) >= (stone.position.y )
+				&& (tank.position.y <= (stone.position.y + stone.texture.getHeight()-5))
+		 ){
+			stone.update(1280,720);
+		}
 	}
 
 	// Домашнее задание:
