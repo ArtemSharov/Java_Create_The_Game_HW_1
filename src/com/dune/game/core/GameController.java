@@ -24,6 +24,7 @@ public class GameController {
 
     public void update(float dt) {
         tank.update(dt);
+        tank.getBullet().update(dt);
         checkCollisions(dt);
     }
 
