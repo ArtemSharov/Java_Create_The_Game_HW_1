@@ -1,48 +1,49 @@
 package com.dune.game.core;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 
-public class Projectile {
-    private Vector2 position;
+public class Projectile extends GameObject implements Poolable {
+    private TextureRegion texture;
     private Vector2 velocity;
-    private TextureRegion[] textures;
-    public Vector2 getPosition() {
-        return position;
-    }
-    public TextureRegion getTexture() {return textures[0];}
-    private boolean init = false;
+    private float speed;
+    private float angle;
+    private boolean active;
 
-
-
-    public boolean getInit(){
-        return init;
-
+    @Override
+    public boolean isActive() {
+        return active;
     }
 
+    public void deactivate() {
+        active = false;
+    }
 
-    public Projectile(TextureAtlas atlas, Vector2 position){
-        this.textures = new TextureRegion(atlas.findRegion("bullet")).split(16, 16)[0];
-        this.position = new Vector2();
+    public Projectile(GameController gc) {
+        super(gc);
         this.velocity = new Vector2();
-        this.position.set(position);
+        this.speed = 320.0f;
     }
 
-    public void setup(Vector2 startPosition, float angle) {
-        velocity.set(100.0f * MathUtils.cosDeg(angle), 100.0f * MathUtils.sinDeg(angle));
-        position.set(startPosition.x - 8+(40.0f * MathUtils.cosDeg(angle)),startPosition.y - 8 + (40.0f * MathUtils.sinDeg(angle)));
-        init = true;
+    public void setup(Vector2 startPosition, float angle, TextureRegion texture) {
+        this.texture = texture;
+        this.position.set(startPosition);
+        this.angle = angle;
+        this.velocity.set(speed * MathUtils.cosDeg(angle), speed * MathUtils.sinDeg(angle));
+        this.active = true;
+    }
+
+    public void render(SpriteBatch batch) {
+        batch.draw(texture, position.x - 8, position.y - 8);
     }
 
     public void update(float dt) {
         position.mulAdd(velocity, dt);
-        if(position.x < 0 || position.x > 1280 || position.y < 0 || position.y > 720) {
-            init = false;
+        if (position.x < 0 || position.x > 1280 || position.y < 0 || position.y > 720) {
+            deactivate();
         }
     }
-
 }
