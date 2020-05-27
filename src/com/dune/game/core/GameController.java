@@ -35,5 +35,7 @@ public class GameController {
     }
 
     public void checkCollisions(float dt) {
-    }
+        map.fuelCheck(tank.position);
+
+   }
 }
