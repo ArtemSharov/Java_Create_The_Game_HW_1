@@ -8,24 +8,45 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 
-public class Tank extends GameObject {
+public class Tank extends GameObject implements Poolable {
+    public enum Owner {
+        PLAYER, AI
+    }
+
+    private Owner ownerType;
+    private Weapon weapon;
     private Vector2 destination;
     private TextureRegion[] textures;
+    private TextureRegion progressbarTexture;
+    private int hp;
     private float angle;
     private float speed;
     private float rotationSpeed;
 
     private float moveTimer;
     private float timePerFrame;
+    private int container;
 
-    public Tank(GameController gc, float x, float y) {
+    @Override
+    public boolean isActive() {
+        return hp > 0;
+    }
+
+    public Tank(GameController gc) {
         super(gc);
-        this.position.set(x, y);
-        this.destination = new Vector2(position);
-        this.textures = Assets.getInstance().getAtlas().findRegion("tankanim").split(64, 64)[0];
-        this.speed = 120.0f;
+        this.progressbarTexture = Assets.getInstance().getAtlas().findRegion("progressbar");
         this.timePerFrame = 0.08f;
         this.rotationSpeed = 90.0f;
+    }
+
+    public void setup(Owner ownerType, float x, float y) {
+        this.textures = Assets.getInstance().getAtlas().findRegion("tankanim").split(64,64)[0];
+        this.position.set(x, y);
+        this.ownerType = ownerType;
+        this.speed = 120.0f;
+        this.hp = 100;
+        this.weapon = new Weapon(Weapon.Type.HARVEST, 3.0f, 1);
+        this.destination = new Vector2(position);
     }
 
     private int getCurrentFrameIndex() {
@@ -33,7 +54,7 @@ public class Tank extends GameObject {
     }
 
     public void update(float dt) {
-        if (Gdx.input.justTouched()) {
+        if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
             destination.set(Gdx.input.getX(), 720 - Gdx.input.getY());
         }
         if (position.dst(destination) > 3.0f) {
@@ -67,15 +88,21 @@ public class Tank extends GameObject {
                 position.mulAdd(tmp, -dt);
             }
         }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.K)) {
-            fire();
-        }
+        updateWeapon(dt);
         checkBounds();
     }
 
-    public void fire() {
-        tmp.set(position).add(32 * MathUtils.cosDeg(angle), 32 * MathUtils.sinDeg(angle));
-        gc.getProjectilesController().setup(tmp, angle);
+    public void updateWeapon(float dt) {
+        if (weapon.getType() == Weapon.Type.HARVEST) {
+            if (gc.getMap().getResourceCount(this) > 0) {
+                int result = weapon.use(dt);
+                if (result > -1) {
+                    container += gc.getMap().harvestResource(this, result);
+                }
+            } else {
+                weapon.reset();
+            }
+        }
     }
 
     public void checkBounds() {
@@ -95,5 +122,12 @@ public class Tank extends GameObject {
 
     public void render(SpriteBatch batch) {
         batch.draw(textures[getCurrentFrameIndex()], position.x - 40, position.y - 40, 40, 40, 80, 80, 1, 1, angle);
+        if (weapon.getType() == Weapon.Type.HARVEST && weapon.getUsageTimePercentage() > 0.0f) {
+            batch.setColor(0.2f, 0.2f, 0.0f, 1.0f);
+            batch.draw(progressbarTexture, position.x - 32, position.y + 30, 64, 12);
+            batch.setColor(1.0f, 1.0f, 0.0f, 1.0f);
+            batch.draw(progressbarTexture, position.x - 30, position.y + 32, 60 * weapon.getUsageTimePercentage(), 8);
+            batch.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+        }
     }
 }
