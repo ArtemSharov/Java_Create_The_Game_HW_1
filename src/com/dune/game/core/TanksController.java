@@ -26,9 +26,28 @@ public class TanksController extends ObjectPool<Tank> {
     }
 
     public void update(float dt) {
+        checkCollision();
         for (int i = 0; i < activeList.size(); i++) {
-            activeList.get(i).update(dt);
-        }
+            getActiveList().get(i).selected();
+
+            activeList.get(i).update(dt);}
+
+
         checkPool();
+
+    }
+    public void checkCollision(){
+        for (int i = 0; i < activeList.size(); i++) {
+            for (int j = 0; j < activeList.size(); j++) {
+                if (i != j) {
+                    if ((getActiveList().get(i).position.x + 80) >= (getActiveList().get(j).position.x)
+                            && (getActiveList().get(i).position.x <= (getActiveList().get(j).position.x + 80))
+                            && (getActiveList().get(i).position.y + 80) >= (getActiveList().get(j).position.y)
+                            && (getActiveList().get(i).position.y <= (getActiveList().get(j).position.y + 80))) {
+                        getActiveList().get(i).stopMove();
+                    }
+                }
+            }
+        }
     }
 }
