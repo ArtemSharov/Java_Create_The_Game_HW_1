@@ -1,12 +1,14 @@
 package com.dune.game.core;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
 public class GameController {
     private BattleMap map;
     private ProjectilesController projectilesController;
     private TanksController tanksController;
+
 
     public TanksController getTanksController() {
         return tanksController;
@@ -38,5 +40,7 @@ public class GameController {
     }
 
     public void checkCollisions(float dt) {
+
     }
+
 }
