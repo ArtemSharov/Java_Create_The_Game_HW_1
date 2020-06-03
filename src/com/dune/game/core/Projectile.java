@@ -12,6 +12,7 @@ public class Projectile extends GameObject implements Poolable {
     private float speed;
     private float angle;
     private boolean active;
+    private int damage;
 
     @Override
     public boolean isActive() {
@@ -21,11 +22,13 @@ public class Projectile extends GameObject implements Poolable {
     public void deactivate() {
         active = false;
     }
+    public int getDamage(){return damage;}
 
     public Projectile(GameController gc) {
         super(gc);
         this.velocity = new Vector2();
         this.speed = 640.0f;
+        this.damage = 50;
     }
 
     public void setup(Vector2 startPosition, float angle, TextureRegion texture) {

@@ -60,11 +60,12 @@ public class GameController {
         tanksController.update(dt);
         projectilesController.update(dt);
         map.update(dt);
-        checkCollisions(dt);
+        checkTankCollisions(dt);
+        checkProjectileCollision();
         // checkSelection();
     }
 
-    public void checkCollisions(float dt) {
+    public void checkTankCollisions(float dt) {
         for (int i = 0; i < tanksController.activeSize() - 1; i++) {
             Tank t1 = tanksController.getActiveList().get(i);
             for (int j = i + 1; j < tanksController.activeSize(); j++) {
@@ -76,6 +77,19 @@ public class GameController {
                     t2.moveBy(tmp);
                     tmp.scl(-1);
                     t1.moveBy(tmp);
+                }
+            }
+        }
+    }
+
+    public void checkProjectileCollision(){
+        for (int i = 0; i < projectilesController.activeSize() ; i++) {
+            Projectile p = projectilesController.getActiveList().get(i);
+            for (int j = 0; j < tanksController.activeSize() ; j++) {
+                Tank t = tanksController.getActiveList().get(j);
+                if( t.getTarget() != null && p.getPosition().dst(t.getTarget().position) < 10.0f ){
+                    p.deactivate();
+                    t.getTarget().damages(p.getDamage());
                 }
             }
         }

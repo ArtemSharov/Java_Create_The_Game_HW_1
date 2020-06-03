@@ -35,6 +35,9 @@ public class Tank extends GameObject implements Poolable {
     public Weapon getWeapon() {
         return weapon;
     }
+    public Tank getTarget() {return target;}
+
+
 
     public void moveBy(Vector2 value) {
         boolean stayStill = false;
@@ -55,6 +58,7 @@ public class Tank extends GameObject implements Poolable {
     public boolean isActive() {
         return hp > 0;
     }
+
 
     public Tank(GameController gc) {
         super(gc);
@@ -86,6 +90,9 @@ public class Tank extends GameObject implements Poolable {
     private int getCurrentFrameIndex() {
         return (int) (moveTimer / timePerFrame) % textures.length;
     }
+    public void damages(int damage){
+        hp -=damage;
+    }
 
     public void update(float dt) {
         lifeTime += dt;
@@ -107,13 +114,18 @@ public class Tank extends GameObject implements Poolable {
                 position.mulAdd(tmp, -dt);
             }
         }
+
         updateWeapon(dt);
         checkBounds();
+
     }
 
     public void commandMoveTo(Vector2 point) {
+
         destination.set(point);
+
     }
+
 
     public void commandAttack(Tank target) {
         this.target = target;
