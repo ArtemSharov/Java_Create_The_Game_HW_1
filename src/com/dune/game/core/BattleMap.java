@@ -17,8 +17,7 @@ public class BattleMap {
             this.cellX = cellX;
             this.cellY = cellY;
             if(MathUtils.random() < 0.1f) {
-                resource = MathUtils.random(1, 3);// не понятно это условие, если мы выращиваем ресурс на 36 строке,
-                // то зачем нам случайно задавать значение переменной?
+                resource = MathUtils.random(1, 3);
             }
             resourceRegenerationRate = MathUtils.random(5.0f) - 4.5f;
             if (resourceRegenerationRate < 0.0f) {

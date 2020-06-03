@@ -25,7 +25,7 @@ public class Projectile extends GameObject implements Poolable {
     public Projectile(GameController gc) {
         super(gc);
         this.velocity = new Vector2();
-        this.speed = 320.0f;
+        this.speed = 640.0f;
     }
 
     public void setup(Vector2 startPosition, float angle, TextureRegion texture) {
