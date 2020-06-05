@@ -1,21 +1,6 @@
 package com.dune.game.core;
 
 public class Weapon {
-    public enum Type {
-        GROUND(0), HARVEST(1), AIR(2);
-
-        public int getImageIndex() {
-            return imageIndex;
-        }
-
-        int imageIndex;
-
-        Type(int imageIndex) {
-            this.imageIndex = imageIndex;
-        }
-    }
-
-    private Type type;
     private float period;
     private float time;
     private float angle;
@@ -29,16 +14,11 @@ public class Weapon {
         this.angle = angle;
     }
 
-    public Type getType() {
-        return type;
-    }
-
     public float getUsageTimePercentage() {
         return time / period;
     }
 
-    public Weapon(Type type, float period, int power) {
-        this.type = type;
+    public Weapon(float period, int power) {
         this.period = period;
         this.power = power;
     }
