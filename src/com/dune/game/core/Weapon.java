@@ -1,25 +1,24 @@
 package com.dune.game.core;
 
 public class Weapon {
-    public enum Type {
-        GROUND, AIR, HARVEST
-    }
-
-    private Type type;
     private float period;
     private float time;
+    private float angle;
     private int power;
 
-    public Type getType() {
-        return type;
+    public float getAngle() {
+        return angle;
+    }
+
+    public void setAngle(float angle) {
+        this.angle = angle;
     }
 
     public float getUsageTimePercentage() {
         return time / period;
     }
 
-    public Weapon(Type type, float period, int power) {
-        this.type = type;
+    public Weapon(float period, int power) {
         this.period = period;
         this.power = power;
     }

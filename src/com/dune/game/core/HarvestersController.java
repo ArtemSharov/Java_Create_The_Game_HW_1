@@ -1,22 +1,22 @@
 package com.dune.game.core;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.dune.game.core.units.AbstractUnit;
+import com.dune.game.core.units.BattleTank;
+import com.dune.game.core.units.Harvester;
+import com.dune.game.core.units.Owner;
 
-public class ProjectilesController extends ObjectPool<Projectile> {
+public class HarvestersController extends ObjectPool<Harvester> {
     private GameController gc;
-    private TextureRegion projectileTexture;
 
     @Override
-    protected Projectile newObject() {
-        return new Projectile(gc);
+    protected Harvester newObject() {
+        return new Harvester(gc);
     }
 
-    public ProjectilesController(GameController gc) {
+    public HarvestersController(GameController gc) {
         this.gc = gc;
-        this.projectileTexture = Assets.getInstance().getAtlas().findRegion("bullet");
     }
 
     public void render(SpriteBatch batch) {
@@ -25,9 +25,9 @@ public class ProjectilesController extends ObjectPool<Projectile> {
         }
     }
 
-    public void setup(AbstractUnit owner, Vector2 srcPosition, float angle) {
-        Projectile p = activateObject();
-        p.setup(owner, srcPosition, angle, projectileTexture);
+    public void setup(float x, float y, Owner ownerType) {
+        Harvester t = activateObject();
+        t.setup(ownerType, x, y);
     }
 
     public void update(float dt) {

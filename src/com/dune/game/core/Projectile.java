@@ -5,13 +5,19 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.dune.game.core.units.AbstractUnit;
 
 public class Projectile extends GameObject implements Poolable {
+    private AbstractUnit owner;
     private TextureRegion texture;
     private Vector2 velocity;
     private float speed;
     private float angle;
     private boolean active;
+
+    public AbstractUnit getOwner() {
+        return owner;
+    }
 
     @Override
     public boolean isActive() {
@@ -25,10 +31,11 @@ public class Projectile extends GameObject implements Poolable {
     public Projectile(GameController gc) {
         super(gc);
         this.velocity = new Vector2();
-        this.speed = 320.0f;
+        this.speed = 640.0f;
     }
 
-    public void setup(Vector2 startPosition, float angle, TextureRegion texture) {
+    public void setup(AbstractUnit owner, Vector2 startPosition, float angle, TextureRegion texture) {
+        this.owner = owner;
         this.texture = texture;
         this.position.set(startPosition);
         this.angle = angle;
