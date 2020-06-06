@@ -10,7 +10,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
 import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
 import com.dune.game.screens.ScreenManager;
-
+// класс, который предоставляет доступ к тектсурам и шрифтам
 public class Assets {
     private static final Assets ourInstance = new Assets();
 

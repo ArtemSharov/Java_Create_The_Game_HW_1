@@ -1,7 +1,7 @@
 package com.dune.game.core;
 
 import com.badlogic.gdx.math.Vector2;
-
+// абстрактный класс игровых объектов, есть геттер позиции объекта
 public abstract class GameObject {
     protected GameController gc;
     protected Vector2 position;

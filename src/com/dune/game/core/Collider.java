@@ -5,7 +5,7 @@ import com.dune.game.core.units.AbstractUnit;
 import com.dune.game.core.units.BattleTank;
 
 import java.util.List;
-
+// класс, который реализует проверки столкновений юнитов
 public class Collider {
     private GameController gc;
     private Vector2 tmp;

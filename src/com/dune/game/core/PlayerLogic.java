@@ -6,7 +6,7 @@ import com.dune.game.core.units.AbstractUnit;
 import com.dune.game.core.units.BattleTank;
 import com.dune.game.core.units.Owner;
 import com.dune.game.core.units.UnitType;
-
+// реализует логику игрока
 public class PlayerLogic {
     private GameController gc;
 

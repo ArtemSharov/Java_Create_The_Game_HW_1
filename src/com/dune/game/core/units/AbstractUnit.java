@@ -5,37 +5,42 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.dune.game.core.*;
 
+// Абстрактный класс, который описывает типовые свойства юнитов в игре, например, сборщик, боевой танк.
+// Наследуется от класса GameObject и реализует интерфейсы Poolable, Targetable
+
 public abstract class AbstractUnit extends GameObject implements Poolable, Targetable {
-    protected UnitType unitType;
-    protected Owner ownerType;
-    protected Weapon weapon;
+    protected UnitType unitType; //тип юнита
+    protected Owner ownerType;  // тип управления Игрок или Бот
+    protected Weapon weapon; // тип оружия
 
-    protected Vector2 destination;
-    protected TextureRegion[] textures;
-    protected TextureRegion weaponTexture;
+    protected Vector2 destination; // вектор растояния
+    protected TextureRegion[] textures; // текстура юнита
+    protected TextureRegion weaponTexture; // текстура оружия
 
-    protected TextureRegion progressbarTexture;
-    protected int hp;
-    protected int hpMax;
-    protected float angle;
-    protected float speed;
-    protected float rotationSpeed;
+    protected TextureRegion progressbarTexture; // текстура прогресс бара
+    protected int hp; // здоровье юнита
+    protected int hpMax; // максимальное здоровье
+    protected float angle; // угол
+    protected float speed; // скорость
+    protected float rotationSpeed; // скорость поворота
 
-    protected float moveTimer;
-    protected float lifeTime;
+    protected float moveTimer; //время движения
+    protected float lifeTime; //время существования
     protected float timePerFrame;
-    protected int container;
+    protected int container; //
     protected int containerCapacity;
 
-    protected Targetable target;
-    protected float minDstToActiveTarget;
+    protected Targetable target; // цель юнита
+    protected float minDstToActiveTarget; // минимальное расстояние до заданной цели
 
     @Override
     public TargetType getType() {
         return TargetType.UNIT;
-    }
+    } // переопределение метода интерфейса Targetable, возвращает тип UNIT
 
-    public boolean takeDamage(int damage) {
+    public boolean takeDamage(int damage) { // метод определяющий получение урона, с входящем параметром урона,
+        // если юнит не активен, то возвращает false, уменьшает здоровье юнита на количество урона, если здоровье меньше 0, то возвращает true,
+        // иначе false
         if (!isActive()) {
             return false;
         }
@@ -48,13 +53,14 @@ public abstract class AbstractUnit extends GameObject implements Poolable, Targe
 
     public UnitType getUnitType() {
         return unitType;
-    }
+    } // геттер на тип юнита
 
     public Weapon getWeapon() {
         return weapon;
-    }
+    } // геттер на тип оружия
 
-    public void moveBy(Vector2 value) {
+    public void moveBy(Vector2 value) { // метод дижения с входящем параметром в виде вектора назначения
+        // не совсем понимаю реализацию, если расстояние от позиции до
         boolean stayStill = false;
         if (position.dst(destination) < 3.0f) {
             stayStill = true;
@@ -67,27 +73,27 @@ public abstract class AbstractUnit extends GameObject implements Poolable, Targe
 
     public Owner getOwnerType() {
         return ownerType;
-    }
+    } //геттер на того кто управляет танком
 
     @Override
     public boolean isActive() {
         return hp > 0;
-    }
+    } // реализация метода интерфейса Poolable, юнит активен, пока здоровье больше 0
 
-    public AbstractUnit(GameController gc) {
+    public AbstractUnit(GameController gc) { // конструктор
         super(gc);
         this.progressbarTexture = Assets.getInstance().getAtlas().findRegion("progressbar");
         this.timePerFrame = 0.08f;
         this.rotationSpeed = 90.0f;
     }
 
-    public abstract void setup(Owner ownerType, float x, float y);
+    public abstract void setup(Owner ownerType, float x, float y); // абстрактный метод сетап, с входными параметрами владельца и координатами х и у
 
     private int getCurrentFrameIndex() {
         return (int) (moveTimer / timePerFrame) % textures.length;
     }
 
-    public void update(float dt) {
+    public void update(float dt) { // метод по которому юнит обновляется  с параметром дельты времени
         lifeTime += dt;
         // Если у танка есть цель, он пытается ее атаковать
         if (target != null) {
@@ -107,20 +113,20 @@ public abstract class AbstractUnit extends GameObject implements Poolable, Targe
                 position.mulAdd(tmp, -dt);
             }
         }
-        updateWeapon(dt);
-        checkBounds();
+        updateWeapon(dt); // обновляет оружие
+        checkBounds(); // контроль выхода за окно
     }
 
-    public void commandMoveTo(Vector2 point) {
+    public void commandMoveTo(Vector2 point) { // команда двигаться к точке, метод обнуляет цель
         destination.set(point);
         target = null;
     }
 
-    public abstract void commandAttack(Targetable target);
+    public abstract void commandAttack(Targetable target); //абстрактный метод атаки
 
-    public abstract void updateWeapon(float dt);
+    public abstract void updateWeapon(float dt); // абстрактный метод обновления оружия
 
-    public void checkBounds() {
+    public void checkBounds() { // контроль выхода за окно
         if (position.x < 40) {
             position.x = 40;
         }
@@ -135,7 +141,7 @@ public abstract class AbstractUnit extends GameObject implements Poolable, Targe
         }
     }
 
-    public void render(SpriteBatch batch) {
+    public void render(SpriteBatch batch) { // метод отрисовки юнита
         float c = 1.0f;
         float r = 0.0f;
         if (gc.isUnitSelected(this)) {
@@ -153,7 +159,7 @@ public abstract class AbstractUnit extends GameObject implements Poolable, Targe
         renderGui(batch);
     }
 
-    public void renderGui(SpriteBatch batch) {
+    public void renderGui(SpriteBatch batch) { // метод, который отрисовывает шкалу здоровья
         if (hp < hpMax) {
             batch.setColor(0.2f, 0.2f, 0.0f, 1.0f);
             batch.draw(progressbarTexture, position.x - 32, position.y + 30, 64, 12);
@@ -164,7 +170,7 @@ public abstract class AbstractUnit extends GameObject implements Poolable, Targe
         }
     }
 
-    public float rotateTo(float srcAngle, float angleTo, float rSpeed, float dt) {
+    public float rotateTo(float srcAngle, float angleTo, float rSpeed, float dt) { // метод поворота
         if (Math.abs(srcAngle - angleTo) > 3.0f) {
             if ((srcAngle > angleTo && Math.abs(srcAngle - angleTo) <= 180.0f) || (srcAngle < angleTo && Math.abs(srcAngle - angleTo) > 180.0f)) {
                 srcAngle -= rSpeed * dt;

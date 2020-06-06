@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.dune.game.core.units.AbstractUnit;
-
+// клас, который реализует снаряд
 public class Projectile extends GameObject implements Poolable {
     private AbstractUnit owner;
     private TextureRegion texture;
