@@ -1,7 +1,7 @@
 package com.dune.game.core;
 
 import com.badlogic.gdx.math.Vector2;
-// абстрактный класс игровых объектов, есть геттер позиции объекта
+
 public abstract class GameObject {
     protected GameController gc;
     protected Vector2 position;
@@ -17,10 +17,6 @@ public abstract class GameObject {
 
     public int getCellY() {
         return (int) (position.y / BattleMap.CELL_SIZE);
-    }
-
-    public void moveBy(Vector2 value) {
-        position.add(value);
     }
 
     public GameObject(GameController gc) {

@@ -1,11 +1,10 @@
-package com.dune.game.core;
+package com.dune.game.core.controllers;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
-import com.dune.game.core.units.AbstractUnit;
-import com.dune.game.core.units.BattleTank;
+import com.dune.game.core.GameController;
+import com.dune.game.core.utils.ObjectPool;
 import com.dune.game.core.units.Harvester;
-import com.dune.game.core.units.Owner;
+import com.dune.game.core.users_logic.BaseLogic;
 
 public class HarvestersController extends ObjectPool<Harvester> {
     private GameController gc;
@@ -25,9 +24,9 @@ public class HarvestersController extends ObjectPool<Harvester> {
         }
     }
 
-    public void setup(float x, float y, Owner ownerType) {
+    public void setup(float x, float y, BaseLogic baseLogic) {
         Harvester t = activateObject();
-        t.setup(ownerType, x, y);
+        t.setup(baseLogic, x, y);
     }
 
     public void update(float dt) {

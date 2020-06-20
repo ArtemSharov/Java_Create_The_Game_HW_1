@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.dune.game.core.Assets;
+import com.dune.game.screens.utils.Assets;
 
 
 public class LoadingScreen extends AbstractScreen {

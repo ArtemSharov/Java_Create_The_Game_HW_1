@@ -1,4 +1,4 @@
-package com.dune.game.core;
+package com.dune.game.screens.utils;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.FileHandleResolver;
@@ -10,7 +10,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
 import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
 import com.dune.game.screens.ScreenManager;
-// класс, который предоставляет доступ к тектсурам и шрифтам
+
 public class Assets {
     private static final Assets ourInstance = new Assets();
 
@@ -43,6 +43,7 @@ public class Assets {
                 break;
             case GAME:
                 assetManager.load("images/game.pack", TextureAtlas.class);
+                createStandardFont(14);
                 createStandardFont(32);
                 break;
         }

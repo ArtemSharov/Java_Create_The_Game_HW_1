@@ -1,10 +1,14 @@
-package com.dune.game.core;
+package com.dune.game.core.controllers;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.dune.game.core.GameController;
+import com.dune.game.core.utils.ObjectPool;
+import com.dune.game.core.Projectile;
 import com.dune.game.core.units.AbstractUnit;
-// логика управления снарядами
+import com.dune.game.screens.utils.Assets;
+
 public class ProjectilesController extends ObjectPool<Projectile> {
     private GameController gc;
     private TextureRegion projectileTexture;

@@ -1,5 +1,5 @@
 package com.dune.game.core;
-// класс реализующий оружие
+
 public class Weapon {
     private float period;
     private float time;
