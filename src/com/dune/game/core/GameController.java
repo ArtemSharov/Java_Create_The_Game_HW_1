@@ -12,7 +12,7 @@ import com.dune.game.screens.ScreenManager;
 
 import java.util.ArrayList;
 import java.util.List;
-
+// класс, который реализует всю игровую логику
 public class GameController {
     private BattleMap map;
     private PlayerLogic playerLogic;

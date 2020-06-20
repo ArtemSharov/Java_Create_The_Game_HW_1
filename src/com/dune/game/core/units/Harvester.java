@@ -7,7 +7,7 @@ import com.dune.game.core.GameController;
 import com.dune.game.core.Targetable;
 import com.dune.game.core.Weapon;
 
-public class Harvester extends AbstractUnit {
+public class Harvester extends AbstractUnit { //реализация сборщика
     public Harvester(GameController gc) {
         super(gc);
         this.textures = Assets.getInstance().getAtlas().findRegion("tankcore").split(64, 64)[0];

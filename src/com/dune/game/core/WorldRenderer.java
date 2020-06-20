@@ -1,5 +1,5 @@
 package com.dune.game.core;
-
+// мировой отрисвщик
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;

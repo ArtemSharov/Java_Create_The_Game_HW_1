@@ -6,9 +6,9 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.dune.game.core.units.BattleTank;
 import com.dune.game.core.units.Harvester;
-
+//Класс, который реализует игровую крту
 public class BattleMap {
-    private class Cell {
+    private class Cell { // класс, который реализует яцейку
         private int cellX, cellY;
         private int resource;
         private float resourceRegenerationRate;
@@ -62,7 +62,7 @@ public class BattleMap {
     private TextureRegion resourceTexture;
     private Cell[][] cells;
 
-    public BattleMap() {
+    public BattleMap() { // конструктор, заполяет карту случайно травой и ресурсами
         this.grassTexture = Assets.getInstance().getAtlas().findRegion("grass");
         this.resourceTexture = Assets.getInstance().getAtlas().findRegion("resource");
         this.cells = new Cell[COLUMNS_COUNT][ROWS_COUNT];
@@ -73,13 +73,13 @@ public class BattleMap {
         }
     }
 
-    public int getResourceCount(Vector2 point) {
+    public int getResourceCount(Vector2 point) { // метод, возвращающий количество ресурсов в ячейке
         int cx = (int) (point.x / CELL_SIZE);
         int cy = (int) (point.y / CELL_SIZE);
         return cells[cx][cy].resource;
     }
 
-    public int harvestResource(Vector2 point, int power) {
+    public int harvestResource(Vector2 point, int power) { // метод сборя ресурса из ячейки
         int value = 0;
         int cx = (int) (point.x / CELL_SIZE);
         int cy = (int) (point.y / CELL_SIZE);

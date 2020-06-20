@@ -7,28 +7,30 @@ import com.dune.game.core.GameController;
 import com.dune.game.core.Targetable;
 import com.dune.game.core.Weapon;
 
+// класс боевого танка, наследуется от AbstractUnit реализует боевой танк со своими свойствами
+
 public class BattleTank extends AbstractUnit {
-    public BattleTank(GameController gc) {
+    public BattleTank(GameController gc) { // конструктор боевого танка
         super(gc);
-        this.textures = Assets.getInstance().getAtlas().findRegion("tankcore").split(64, 64)[0];
-        this.weaponTexture = Assets.getInstance().getAtlas().findRegion("turret");
-        this.minDstToActiveTarget = 240.0f;
-        this.speed = 120.0f;
-        this.hpMax = 100;
-        this.weapon = new Weapon(1.5f, 1);
-        this.containerCapacity = 50;
-        this.unitType = UnitType.BATTLE_TANK;
+        this.textures = Assets.getInstance().getAtlas().findRegion("tankcore").split(64, 64)[0]; // картинка танка
+        this.weaponTexture = Assets.getInstance().getAtlas().findRegion("turret"); //картинка оружия
+        this.minDstToActiveTarget = 240.0f; // расстояние до цели
+        this.speed = 120.0f; //скорость
+        this.hpMax = 100; // здоровье танка
+        this.weapon = new Weapon(1.5f, 1); // оружие
+        this.containerCapacity = 50; // вместимость контейнера
+        this.unitType = UnitType.BATTLE_TANK; // определение типа танка, как боевой танк
     }
 
     @Override
-    public void setup(Owner ownerType, float x, float y) {
+    public void setup(Owner ownerType, float x, float y) { // отпределение абстрактного метода класса родителя
         this.position.set(x, y);
         this.ownerType = ownerType;
         this.hp = this.hpMax;
         this.destination = new Vector2(position);
     }
 
-    public void updateWeapon(float dt) {
+    public void updateWeapon(float dt) { // мотод обновления оружия
         if (target != null) {
             if (!((AbstractUnit) target).isActive()) {
                 target = null;
@@ -47,7 +49,7 @@ public class BattleTank extends AbstractUnit {
     }
 
     @Override
-    public void commandAttack(Targetable target) {
+    public void commandAttack(Targetable target) { // реализация метода родителя, который задает цель для атаки
         if (target.getType() == TargetType.UNIT && ((AbstractUnit) target).getOwnerType() != this.ownerType) {
             this.target = target;
         } else {

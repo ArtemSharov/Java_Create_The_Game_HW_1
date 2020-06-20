@@ -2,7 +2,7 @@ package com.dune.game.core;
 
 import java.util.ArrayList;
 import java.util.List;
-
+// абстрактный класс пула объектов, добавляет активные объекты в лист и очищает его
 public abstract class ObjectPool<T extends Poolable> {
     protected List<T> activeList;
     protected List<T> freeList;
